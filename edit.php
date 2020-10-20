@@ -50,10 +50,8 @@ if (isset($_GET['edit'])) {
 
 </form>
 <div class="back" style="text-align: center">
-    <input type="button" value="Back" onClick="javascript:history.go(-2)" />
+    <button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button>
 </div>
-	
-
 
 </body>
 </html>
