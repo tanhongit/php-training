@@ -5,26 +5,6 @@ include('functions.php');
 
 $results = [];
 
-$option_name_desc = array(
-    'order_by' => 'username',
-    'limit' => '12',
-    'offset' => '0',
-);
-$option_name_asc = array(
-    'order_by' => 'username',
-    'limit' => '12',
-    'offset' => '0',
-);
-$option_fullname_asc = array(
-    'order_by' => 'createDate ASC',
-    'limit' => '12',
-    'offset' => '0',
-);
-$option_fullname_desc = array(
-    'order_by' => 'fullname DESC',
-    'limit' => '12',
-    'offset' => '0',
-);
 $option_id_desc = array(
     'order_by' => 'id DESC',
     'limit' => '12',
@@ -155,9 +135,8 @@ if (isAdmin()) {
             </table>
 
         </form>
-        <div class="back" style="text-align: center">
+        <div class="back" style="text-align: center; padding-top: 10px;">
             <button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button>
-
         </div>
     </div>
 </body>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 
 $user_id = intval($_GET['edit']);
@@ -10,7 +10,7 @@ $userName = "";
 $fullName = "";
 $userEmail = "";
 if (isset($_GET['edit'])) {
-    if(isLoggedIn()){
+    if (isLoggedIn()) {
         $query = "SELECT * FROM users WHERE id=" . $user_id;
         $result = mysqli_query($conn, $query);
         $data = mysqli_fetch_assoc($result);
@@ -19,19 +19,21 @@ if (isset($_GET['edit'])) {
 ?>
 
 <html>
+
 <head>
     <title>Register</title>
     <link rel="stylesheet" href="public/css/styles.css">
 </head>
-<body>
-<div class="header">
-	<h2>Edit User</h2>
-</div>
-</form>
 
-<form method="post" action="">
-	<?php echo display_error(); ?>	
-        
+<body>
+    <div class="header">
+        <h2>Edit User</h2>
+    </div>
+    </form>
+
+    <form method="post" action="">
+        <?php echo display_error(); ?>
+
         <div class="input-group">
             <label>Username</label>
             <input type="text" name="username1" value="<?php echo $data['username']; ?>" placeholder="<?php echo $data['username']; ?>">
@@ -48,10 +50,11 @@ if (isset($_GET['edit'])) {
             <button type="submit" class="btn" name="save_btn">Save</button>
         </div>
 
-</form>
-<div class="back" style="text-align: center">
-    <button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button>
-</div>
+    </form>
+    <div class="back" style="text-align: center; padding-top: 10px;">
+        <button type="button" class="btn btn-info" onClick="javascript:history.go(-2)">Back</button>
+    </div>
 
 </body>
+
 </html>
