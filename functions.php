@@ -233,3 +233,58 @@ function get_by_options($table, $options = array())
     }
     return $data;
 }
+
+function get_total($table, $options = array())
+{
+    global $conn;
+    $where = isset($options['where']) ? 'WHERE ' . $options['where'] : '';
+    $sql = "SELECT COUNT(*) as total FROM `$table` $where";
+    $query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+    $row = mysqli_fetch_assoc($query);
+    return $row['total'];
+}
+//pagination admin
+function pagination_admin($url, $page, $total)
+{
+    $adjacents = 2;
+    $out = '<ul class="pagination">';
+    //first
+    if ($page == 1) {
+        $out .= '<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Đầu</a></li>';
+    } else {
+        $out .= '<li class="page-item"><a class="page-link" href="' . $url . '">Đầu</a></li>';
+    }
+    // previous
+    if ($page == 1) {
+        $out .= '<li class="page-item disabled"><span class="page-link"><span aria-hidden="true">&laquo;</span></li>';
+    } elseif ($page == 2) {
+        $out .= '<li class="page-item"><a class="page-link" href="' . $url . '"><span aria-hidden="true">&laquo;</span></a></li>';
+    } else {
+        $out .= '<li class="page-item"><a class="page-link" href="' . $url . '&amp;page=' . ($page - 1) . '"><span aria-hidden="true">&laquo;</span></a></li>';
+    }
+    $pmin = ($page > $adjacents) ? ($page - $adjacents) : 1;
+    $pmax = ($page < ($total - $adjacents)) ? ($page + $adjacents) : $total;
+    for ($i = $pmin; $i <= $pmax; $i++) {
+        if ($i == $page) {
+            $out .= '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
+        } elseif ($i == 1) {
+            $out .= '<li class="page-item"><a class="page-link" href="' . $url . '">' . $i . '</a></li>';
+        } else {
+            $out .= '<li class="page-item"><a class="page-link" href="' . $url . "&amp;page=" . $i . '">' . $i . '</a></li>';
+        }
+    }
+    // next
+    if ($page < $total) {
+        $out .= '<li class="page-item"><a class="page-link" href="' . $url . '&amp;page=' . ($page + 1) . '"> <span aria-hidden="true">&raquo;</span></a></li>';
+    } else {
+        $out .= '<li class="page-item disabled"><span class="page-link"><span aria-hidden="true">&raquo;</span></span></li>';
+    }
+    //last
+    if ($page < $total) {
+        $out .= '<li class="page-item"><a class="page-link" href="' . $url . '&amp;page=' . $total . '">Cuối</a></li>';
+    } else {
+        $out .= '<li class="page-item disabled"><span class="page-link">Cuối</span></li>';
+    }
+    $out .= '</ul>';
+    return $out;
+}
