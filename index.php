@@ -46,8 +46,8 @@ if (!isLoggedIn()) {
 						<br>
 						<?php echo $_SESSION['user']['fullname']; ?><br>
 						<?php echo $_SESSION['user']['email']; ?><br>
-						<a href="edit.php?edit='1">Edit Information</a><br>
-						<a href="index.php?logout='1'" style="color: red;">Logout</a>
+						<a href="edit.php?edit=<?= $_SESSION['user']['id'] ?>">Edit Information</a><br>
+						<a href="index.php?logout=<?= $_SESSION['user']['id'] ?>" style="color: red;">Logout</a>
 					</small>
 
 				<?php endif ?>

@@ -12,7 +12,7 @@ if (isset($_GET['page'])) $page = intval($_GET['page']);
 else $page = 1;
 
 $page = ($page > 0) ? $page : 1;
-$limit = 3;
+$limit = 5;
 $offset = ($page - 1) * $limit;
 $url = 'list.php?list=6';
 
@@ -129,10 +129,9 @@ $pagination = pagination_admin($url, $page, $total);
                                     <td><?php echo $result['fullname']; ?></td>
                                     <td><?php echo $result['email']; ?></td>
                                     <td>
-                                        <a><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href="userinfo.php?user_id=<?= $result['id'] ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                         <a href="edit.php?edit=<?= $result['id'] ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                         <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= $result['id'] ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
-
                                     </td>
                                 </tr>
                         <?php  }
@@ -149,7 +148,7 @@ $pagination = pagination_admin($url, $page, $total);
                                 <td><?php echo $result['fullname']; ?></td>
                                 <td><?php echo $result['email']; ?></td>
                                 <td>
-                                    <a><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                    <a href="userinfo.php?user_id=<?= $result['id'] ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     <a href="edit.php?edit=<?= $result['id'] ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                     <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= $result['id'] ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
 

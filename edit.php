@@ -1,7 +1,14 @@
 <?php
 session_start();
 
+
+
 $user_id = intval($_GET['edit']);
+
+if($_SESSION['user']['id'] != $user_id && $_SESSION['user']['user_type'] != 'admin'){
+    $_SESSION['msg'] = "You must log in first";
+	header('location: login.php');
+}
 
 include('functions.php');
 
