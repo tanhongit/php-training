@@ -77,6 +77,17 @@ $pagination = pagination_admin($url, $page, $total);
 
 <body>
     <div class="container">
+        <!-- notification message -->
+		<?php if (isset($_SESSION['success'])) : ?>
+			<div class="error success">
+				<h3>
+					<?php
+					echo $_SESSION['success'];
+					unset($_SESSION['success']);
+					?>
+				</h3>
+			</div>
+		<?php endif ?>
         <div class="header">
             <h2>List User</h2>
         </div>

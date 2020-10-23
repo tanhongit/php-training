@@ -13,6 +13,6 @@ if (isset($_POST['save_btn'])) {
 	edit($encode_link);
 }
 
-$message = "This User has successfully changed";
+$_SESSION['success'] = "This User has successfully changed";
 
 require('list.php');
