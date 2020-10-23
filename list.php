@@ -62,6 +62,14 @@ if ($search != "") {
 }
 $total = ceil($total_rows / $limit);
 $pagination = pagination_admin($url, $page, $total);
+
+//encode id
+function getLink($id)
+{
+    $random = md5(uniqid($id));
+    $_SESSION['links_edit'][$random] = $id;
+    return "$random";
+}
 ?>
 
 <html>
@@ -131,7 +139,7 @@ $pagination = pagination_admin($url, $page, $total);
                                     <td><?php echo $result['email']; ?></td>
                                     <td>
                                         <a href="userinfo.php?user_id=<?= $result['id'] ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                        <a href="edit.php?edit=<?= $result['id'] ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                        <a href="edit.php?edit=<?= getLink($result['id']) ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                         <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= $result['id'] ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
@@ -150,7 +158,7 @@ $pagination = pagination_admin($url, $page, $total);
                                 <td><?php echo $result['email']; ?></td>
                                 <td>
                                     <a href="userinfo.php?user_id=<?= $result['id'] ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                    <a href="edit.php?edit=<?= $result['id'] ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                    <a href="edit.php?edit=<?= getLink($result['id']) ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                     <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= $result['id'] ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
 
                                 </td>
