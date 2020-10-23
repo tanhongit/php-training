@@ -46,7 +46,7 @@ if (!isLoggedIn()) {
 						<br>
 						<?php echo $_SESSION['user']['fullname']; ?><br>
 						<?php echo $_SESSION['user']['email']; ?><br>
-						<a href="edit.php?edit=<?= $_SESSION['user']['id'] ?>">Edit Information</a><br>
+						<a href="edit.php?edit=<?= getLink($_SESSION['user']['id']) ?>">Edit Information</a><br>
 						<a href="index.php?logout=<?= $_SESSION['user']['id'] ?>" style="color: red;">Logout</a>
 					</small>
 

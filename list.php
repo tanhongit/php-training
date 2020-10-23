@@ -63,13 +63,6 @@ if ($search != "") {
 $total = ceil($total_rows / $limit);
 $pagination = pagination_admin($url, $page, $total);
 
-//encode id
-function getLink($id)
-{
-    $random = md5(uniqid($id));
-    $_SESSION['links_edit'][$random] = $id;
-    return "$random";
-}
 ?>
 
 <html>
