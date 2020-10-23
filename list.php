@@ -6,6 +6,7 @@ if (!isAdmin()) {
     $_SESSION['msg'] = "You must log in first";
     header('location: login.php');
 }
+
 $results = [];
 
 if (isset($_GET['page'])) $page = intval($_GET['page']);

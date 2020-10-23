@@ -5,9 +5,9 @@ session_start();
 
 $user_id = intval($_GET['edit']);
 
-if($_SESSION['user']['id'] != $user_id && $_SESSION['user']['user_type'] != 'admin'){
+if ($_SESSION['user']['id'] != $user_id && $_SESSION['user']['user_type'] != 'admin') {
     $_SESSION['msg'] = "You must log in first";
-	header('location: login.php');
+    header('location: login.php');
 }
 
 include('functions.php');
@@ -43,15 +43,15 @@ if (isset($_GET['edit'])) {
 
         <div class="input-group">
             <label>Username</label>
-            <input type="text" name="username1" value="<?php echo $data['username']; ?>" placeholder="<?php echo $data['username']; ?>">
+            <input required type="text" name="username1" value="<?php echo $data['username']; ?>" placeholder="<?php echo $data['username']; ?>">
         </div>
         <div class="input-group">
             <label>Full Name</label>
-            <input type="text" name="fullname1" value="<?php echo $data['fullname']; ?>" placeholder="<?php echo $data['fullname']; ?>">
+            <input required type="text" name="fullname1" value="<?php echo $data['fullname']; ?>" placeholder="<?php echo $data['fullname']; ?>">
         </div>
         <div class="input-group">
             <label>Email</label>
-            <input type="email" name="email1" value="<?php echo $data['email']; ?>" placeholder="<?php echo $data['email']; ?>">
+            <input required type="email" name="email1" value="<?php echo $data['email']; ?>" placeholder="<?php echo $data['email']; ?>">
         </div>
         <div class="input-group">
             <button type="submit" class="btn" name="save_btn">Save</button>

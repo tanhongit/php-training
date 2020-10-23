@@ -1,7 +1,9 @@
 <?php
 session_start();
+include('functions.php');
 
-include('functions.php')
+if (isLoggedIn()) header('location: home.php');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,15 +23,15 @@ include('functions.php')
 
 		<div class="input-group">
 			<label>Username</label>
-			<input type="text" value="<?php if (isset($_COOKIE["user"])) {
-											echo $_COOKIE["user"];
-										} ?>" name="username">
+			<input required type="text" value="<?php if (isset($_COOKIE["user"])) {
+													echo $_COOKIE["user"];
+												} ?>" name="username">
 		</div>
 		<div class="input-group">
 			<label>Password</label>
-			<input type="password" value="<?php if (isset($_COOKIE["pass"])) {
-												echo $_COOKIE["pass"];
-											} ?>" name="password">
+			<input required type="password" value="<?php if (isset($_COOKIE["pass"])) {
+														echo $_COOKIE["pass"];
+													} ?>" name="password">
 		</div>
 		<div class="row align-items-center">
 			<input type="checkbox" name="remember">Remember Me
