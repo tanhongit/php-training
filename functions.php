@@ -81,10 +81,6 @@ function edit($user_id)
 	header('location: list.php');
 }
 
-if (isset($_POST['save_btn'])) {
-	edit($user_id);
-}
-
 function getUserById($id)
 {
 	global $conn;
@@ -292,4 +288,13 @@ function pagination_admin($url, $page, $total)
 	}
 	$out .= '</ul>';
 	return $out;
+}
+
+//encode id
+function getLink($id)
+{
+    $random = md5(uniqid($id));
+	$_SESSION['links_edit'][$random] = $id;
+	$_SESSION['result_link'] = $random;
+    return "$random";
 }
