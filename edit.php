@@ -1,9 +1,12 @@
 <?php
 session_start();
 
+if (isset($_GET['edit'])) {
+    $link_edit = $_GET['edit'];
+    $encode_link = $_SESSION['links_edit'][$link_edit];
+} else header('location: home.php');
 
-
-$user_id = intval($_GET['edit']);
+$user_id = intval($encode_link);
 
 if ($_SESSION['user']['id'] != $user_id && $_SESSION['user']['user_type'] != 'admin') {
     $_SESSION['msg'] = "You must log in first";
@@ -28,7 +31,7 @@ if (isset($_GET['edit'])) {
 <html>
 
 <head>
-    <title>Register</title>
+    <title>Edit User</title>
     <link rel="stylesheet" href="public/css/styles.css">
 </head>
 
@@ -38,7 +41,7 @@ if (isset($_GET['edit'])) {
     </div>
     </form>
 
-    <form method="post" action="">
+    <form method="post" action="update.php?update=<?= $link_edit ?>">
         <?php echo display_error(); ?>
 
         <div class="input-group">
