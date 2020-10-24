@@ -293,9 +293,7 @@ function pagination_admin($url, $page, $total)
 //encode id
 function getLink($id)
 {
-    $random = md5(uniqid($id));
-	$_SESSION['links_edit'][$random] = $id;
-	$_SESSION['info_user_id'][$random] = $id;
-	$_SESSION['result_link'] = $random;
+	$random = md5(uniqid($id));
+	$_SESSION['links_edit'][$random] = $_SESSION['info_user_id'][$random] = $id;
     return "$random";
 }
