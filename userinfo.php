@@ -3,7 +3,9 @@ session_start();
 
 include('functions.php');
 
-$user_id = intval($_GET['user_id']);
+empty($_GET['user_id']) ? header('location: home.php') : $encode_user_id = $_SESSION['info_user_id'][$_GET['user_id']];;
+
+$user_id = intval($encode_user_id);
 
 if (isset($_GET['user_id'])) {
     if (isLoggedIn()) {

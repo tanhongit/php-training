@@ -38,7 +38,7 @@ if (!isLoggedIn()) {
 			<img src="public/images/user_profile.png">
 
 			<div>
-				<?php if (isset($_SESSION['user'])) : ?>
+				<?php if (isset($_SESSION['user'])) { ?>
 					<strong><?php echo $_SESSION['user']['username']; ?></strong>
 
 					<small>
@@ -50,7 +50,7 @@ if (!isLoggedIn()) {
 						<a href="index.php?logout=<?= $_SESSION['user']['id'] ?>" style="color: red;">Logout</a>
 					</small>
 
-				<?php endif ?>
+				<?php } else header('location: login.php'); ?>
 			</div>
 		</div>
 	</div>
