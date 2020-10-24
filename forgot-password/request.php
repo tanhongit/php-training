@@ -4,43 +4,41 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-include('functions.php');
+include('../functions.php');
+include '../lib/config.php';
 
 if (!empty($_POST['email'])) {
     $email = $_POST['email'];
-    global $linkconnectDB;
+    global $conn;
     if (!preg_match("/([a-z0-9_]+|[a-z0-9_]+\.[a-z0-9_]+)@(([a-z0-9]|[a-z0-9]+\.[a-z0-9]+)+\.([a-z]{2,4}))/i", $email)) {
-        echo "<div style='padding-top: 200' class='container'><div style='text-align: center;' class='alert alert-danger'><strong>NO!</strong> Email này không hợp lệ. Vui long nhập email khác. <a href='javascript: history.go(-1)'>Trở lại</a> hoặc <a href='index.php'>Đến Trang chủ</a></div></div>";
-        require('content/views/forgot-password/result.php');
+        $_SESSION['forgot_pass'] = " Email này không hợp lệ. Vui lòng <a href='javascript: history.go(-1)'>Trở lại</a> và nhập email khác. Hoặc <a href='../login.php'>Đến Trang Login</a>";
+        require('index.php');
         exit;
-    } elseif (mysqli_num_rows(mysqli_query($linkconnectDB, "SELECT user_email FROM users WHERE user_email='$email'")) < 1) {
-        echo "<div style='padding-top: 200' class='container'><div style='text-align: center;' class='alert alert-danger'><strong>NO!</strong> Email này không có người dùng và không tồn tại trong máy chủ. Vui lòng chọn lại Email khác. <a href='javascript: history.go(-1)'>Trở lại</a> hoặc <a href='index.php'>Đến Trang chủ</a></div></div>";
-        require('content/views/forgot-password/result.php');
+    } elseif (mysqli_num_rows(mysqli_query($conn, "SELECT email FROM users WHERE email='$email'")) < 1) {
+        $_SESSION['forgot_pass'] = "Email này không có người dùng và không tồn tại trong máy chủ. <br> Vui lòng <a href='javascript: history.go(-1)'>Trở lại</a> và nhập lại Email khác. Hoặc <a href='../login.php'>Đến Trang Login</a>";
+        require('index.php');
         exit;
     } else {
+
         $option = array(
             'order' => 'id'
         );
         $users = get_by_options('users', $option);
-        foreach ($users as $user) {
-            if ($user['user_email'] == $email) {
-                $verification_Code = $user['verificationCode'];
-            }
-        }
-        require 'vendor/autoload.php';
-        include 'lib/config/sendmail.php';
+
+        require '../vendor/autoload.php';
+        include '../lib/setting.php';
         $mail = new PHPMailer(true);
         try {
-            $verificationLink = PATH_URL . "index.php?controller=forgot-password&action=resultcode&code=" . $verification_Code;
+            $verificationLink = PATH_URL . "forgot-password/result.php&code=" . $verification_Code;
             //content
             $htmlStr = "";
             $htmlStr .= "Xin chào " . $username . ' (' . $email . "),<br /><br />";
-            $htmlStr .= "Chào mừng bạn đến với Chị Kòi Quán.<br /><br /><br />";
+            $htmlStr .= "Chào mừng bạn đến với PHP TRAINING.<br /><br /><br />";
             $htmlStr .= "Vui lòng truy cập tại link sau để xác thực tài khoản và bắt đầu đổi mật khẩu mới.<br><br>";
             $htmlStr .= "<a href='{$verificationLink}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>Change New Password</a><br /><br /><br />";
-            $htmlStr .= "Cảm ơn bạn đã tham gia và đồng hành cùng quán Chị Kòi.<br><br>";
+            $htmlStr .= "Cảm ơn bạn đã tham gia và đồng hành cùng PHP TRAINING.<br><br>";
             $htmlStr .= "Trân trọng,<br />";
-            $htmlStr .= "<a href='https://tanhongit.com/' target='_blank'>By Tân Hồng IT</a><br />";
+            $htmlStr .= "<a href='https://tanhongit.com/' target='_blank'>By TEAM D</a><br />";
             //Server settings
             $mail->CharSet = "UTF-8";
             $mail->SMTPDebug = 0; // Enable verbose debug output (0 : ko hiện debug, 1 hiện)
@@ -68,7 +66,7 @@ if (!empty($_POST['email'])) {
         } catch (Exception $e) {
             echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }
-        echo "<div style='padding-top: 200' class='container'><div style='text-align: center;' class='alert alert-success'><strong>Done!</strong> Bạn sẽ nhận được tin nhắn Email xác nhận đổi mật khẩu với email mà bạn vừa nhập.<br><br> Vui lòng đến hộp thư và kiểm tra tin nhắn và xác nhận liên kết đổi mật khẩu ở đó!!</div></div>";
-        require('content/views/forgot-password/result.php');
+        $_SESSION['forgot_pass_suc'] =  "<strong>Done!</strong> Bạn sẽ nhận được tin nhắn Email xác nhận đổi mật khẩu với email mà bạn vừa nhập.<br><br> Vui lòng đến hộp thư và kiểm tra tin nhắn và xác nhận liên kết đổi mật khẩu ở đó!!";
+        require('index.php');
     }
 }
