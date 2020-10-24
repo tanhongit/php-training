@@ -22,13 +22,13 @@ if (!isAdmin()) {
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="public/css/styles.css">
 	<style>
-		.header {
+		/* .header {
 			background: #003366;
 		}
 
 		button[name=register_btn] {
 			background: #003366;
-		}
+		} */
 	</style>
 </head>
 
