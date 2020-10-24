@@ -10,7 +10,7 @@ if (isset($_GET['logout'])) {
 }
 
 if (!isAdmin()) {
-	$_SESSION['msg'] = "You must log in first";
+	$_SESSION['msg'] = "You must log in by admin account";
 	header('location: index.php');
 }
 

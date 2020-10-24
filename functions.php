@@ -169,7 +169,7 @@ function login()
 			if ($logged_in_user['user_type'] == 'admin') {
 
 				$_SESSION['user'] = $logged_in_user;
-				$_SESSION['success']  = "You are now logged in";
+				$_SESSION['success']  = "You are now logged in by Admin";
 
 				if (isset($_POST['remember'])) {
 					//thiết lập cookie username và password
@@ -295,6 +295,7 @@ function getLink($id)
 {
     $random = md5(uniqid($id));
 	$_SESSION['links_edit'][$random] = $id;
+	$_SESSION['info_user_id'][$random] = $id;
 	$_SESSION['result_link'] = $random;
     return "$random";
 }
