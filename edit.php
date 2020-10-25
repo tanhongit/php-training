@@ -59,10 +59,9 @@ if (isset($_GET['edit'])) {
         <div class="input-group">
             <button type="submit" class="btn" name="save_btn">Save</button>
         </div>
-
     </form>
     <div class="back" style="text-align: center; padding-top: 10px;">
-        <button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button>
+        <button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button> <a type="button" class="btn btn-info" href="change-password/index.php?code=<?= $link_edit ?>">Change Password</a>
     </div>
 
 </body>

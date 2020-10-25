@@ -17,10 +17,10 @@
             </div>
         <?php endif ?>
         <?php if (isset($mess_success)) : ?>
-            <div class="error danger" style="text-align: center;">
+            <div class="error success" style="text-align: center;">
                 <h3>
                     <?php
-                    echo $mess;
+                    echo $mess_success;
                     ?>
                 </h3>
             </div>

@@ -35,7 +35,7 @@ if (!empty($_POST['change'])) {
         try {
             //content
             $htmlStr = "";
-            $htmlStr .= "Xin chào " . $user['username'] . ' (' . $email . "),<br /><br />";
+            $htmlStr .= "Xin chào <strong>" . $user['username'] . '</strong> (' . $email . "),<br /><br />";
             $htmlStr .= "Mật khẩu của bạn hiện đã được thay đổi cách đây không lâu...<br /><br />";
             $htmlStr .= "Vui lòng kiểm tra và <a href='" . PATH_URL . "login.php'>Đăng nhập</a></div> lại với mật khẩu mới của bạn.<br><br>";
             $htmlStr .= "Trân trọng,<br />";

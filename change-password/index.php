@@ -4,11 +4,11 @@ session_start();
 include('../functions.php');
 
 $id = 0;
-if (isset($_GET['code'])) {
+if (!empty($_GET['code'])) {
     if (isset($_SESSION['forgot_pass_Code']) && $_SESSION['forgot_pass_Code'] == $_GET['code']) {
         $id = $_SESSION['forgot_pass_id'][$_GET['code']];
-    }
-}
+    }else header('location: ../index.php');
+}else header('location: ../index.php');
 $_SESSION['change_pass'] = getLink($id);
 $_SESSION['id_change_pass'][$_SESSION['change_pass']] = $id;
 ?>
@@ -41,14 +41,16 @@ $_SESSION['id_change_pass'][$_SESSION['change_pass']] = $id;
             <br>
             <button type="submit" class="btn btn-info">Send Request</button>
             <br>
-            <hr><br>
-            <div class="input-group">
-                <a class="btn link" href="../login.php">Bạn đã nhớ lại mật khẩu? Đến "Đăng nhập"!</a>
-            </div>
-            <br>
-            <div class="input-group">
-                <a class="btn link" href="../register.php">Sign Up</a>
-            </div>
+            <?php if (!isLoggedIn()) : ?>
+                <hr><br>
+                <div class="input-group">
+                    <a class="btn link" href="../login.php">Bạn đã nhớ lại mật khẩu? Đến "Đăng nhập"!</a>
+                </div>
+                <br>
+                <div class="input-group">
+                    <a class="btn link" href="../register.php">Sign Up</a>
+                </div>
+            <?php endif; ?>
         </form>
 
     </div>

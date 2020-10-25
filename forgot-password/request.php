@@ -46,7 +46,7 @@ if (!empty($_POST['email'])) {
             $verificationLink = PATH_URL . "forgot-password/result.php?code=" . $verificationCode;
             //content
             $htmlStr = "";
-            $htmlStr .= "Xin chào " . $user_name . ' (' . $email . "),<br /><br />";
+            $htmlStr .= "Xin chào <strong>" . $user_name . '</strong> (' . $email . "),<br /><br />";
             $htmlStr .= "Chào mừng bạn đến với PHP TRAINING.<br /><br /><br />";
             $htmlStr .= "Vui lòng truy cập tại link sau để xác thực tài khoản và bắt đầu đổi mật khẩu mới.<br><br>";
             $htmlStr .= "<a href='{$verificationLink}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>Change New Password</a><br /><br /><br />";
