@@ -40,6 +40,9 @@ if (isLoggedIn()) header('location: home.php');
 			<button type="submit" class="btn" name="login_btn">Login</button>
 		</div>
 		<p>
+			<a href="forgot-password">Forgot password?</a>
+		</p>
+		<p>
 			Not yet a member? <a href="register.php">Sign up</a>
 		</p>
 	</form>
