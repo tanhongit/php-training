@@ -3,7 +3,7 @@ session_start();
 
 if (!isset($_GET['code']) || empty($_GET['code'])) header('location: index.php');
 
-if ($_SESSION['forgot_pass_Code'] == $_GET['code']) {
+if (isset($_SESSION['forgot_pass_Code'] ) && $_SESSION['forgot_pass_Code'] == $_GET['code']) {
     header('location:../change-password/index.php?code=' . $_SESSION['forgot_pass_Code']);
 } else {
     $mess = "<strong>Oh No!</strong> Link xác nhận tài khoản để đổi mật khẩu của bạn không đúng. Vui lòng kiểm tra lại.";

@@ -50,6 +50,7 @@ if (!empty($_POST['email'])) {
             $htmlStr .= "Chào mừng bạn đến với PHP TRAINING.<br /><br /><br />";
             $htmlStr .= "Vui lòng truy cập tại link sau để xác thực tài khoản và bắt đầu đổi mật khẩu mới.<br><br>";
             $htmlStr .= "<a href='{$verificationLink}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>Change New Password</a><br /><br /><br />";
+            $htmlStr .= "Lưu ý: Tuyệt đối không nhấp vào button link trên nếu bạn không thực hiện hành động này!.<br><br>";
             $htmlStr .= "Cảm ơn bạn đã tham gia và đồng hành cùng PHP TRAINING.<br><br>";
             $htmlStr .= "Trân trọng,<br />";
             $htmlStr .= "By TEAM D";
