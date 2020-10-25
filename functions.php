@@ -301,13 +301,32 @@ function getLink($id)
 function get_a_record($table, $id, $select = '*')
 {
     $id = intval($id);
-    global $linkconnectDB;
+    global $conn;
     $sql = "SELECT $select FROM `$table` WHERE id=$id";
-    $query = mysqli_query($linkconnectDB, $sql) or die(mysqli_error($linkconnectDB));
+    $query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
     $data = NULL;
     if (mysqli_num_rows($query) > 0) {
         $data = mysqli_fetch_assoc($query);
         mysqli_free_result($query);
     }
     return $data;
+}
+
+function save($table, $data = array())
+{
+    $values = array();
+    global $conn;
+    foreach ($data as $key => $value) {
+        $value = mysqli_real_escape_string($conn, $value);
+        $values[] = "`$key`='$value'";
+    }
+    $id = intval($data['id']);
+    if ($id > 0) {
+        $sql = "UPDATE `$table` SET " . implode(',', $values) . " WHERE id=$id";
+    } else {
+        $sql = "INSERT INTO `$table` SET " . implode(',', $values);
+    }
+    mysqli_query($conn, $sql) or die(mysqli_error($conn));
+    $id = ($id > 0) ? $id : mysqli_insert_id($conn);
+    return $id;
 }
