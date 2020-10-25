@@ -4,11 +4,11 @@ session_start();
 include('../functions.php');
 
 $id = 0;
-if (isset($_GET['code'])) {
+if (!empty($_GET['code'])) {
     if (isset($_SESSION['forgot_pass_Code']) && $_SESSION['forgot_pass_Code'] == $_GET['code']) {
         $id = $_SESSION['forgot_pass_id'][$_GET['code']];
-    }
-}
+    }else header('location: ../index.php');
+}else header('location: ../index.php');
 $_SESSION['change_pass'] = getLink($id);
 $_SESSION['id_change_pass'][$_SESSION['change_pass']] = $id;
 ?>
@@ -32,23 +32,25 @@ $_SESSION['id_change_pass'][$_SESSION['change_pass']] = $id;
             <input type="hidden" name="change" value="<?= $_SESSION['change_pass'] ?>">
             <div class="input-group">
                 <label>Enter your password!</label><br>
-                <input type="password" name="newPassword" placeholder="Enter Password" autofocus />
+                <input required type="password" name="newPassword" placeholder="Enter Password" autofocus />
             </div><br>
             <div class="input-group">
                 <label>Please confirm your password!</label><br>
-                <input type="password" name="confirmNewPassword" placeholder="Enter Password Again" autofocus />
+                <input required type="password" name="confirmNewPassword" placeholder="Enter Password Again" autofocus />
             </div>
             <br>
             <button type="submit" class="btn btn-info">Send Request</button>
             <br>
-            <hr><br>
-            <div class="input-group">
-                <a class="btn link" href="../login.php">Bạn đã nhớ lại mật khẩu? Đến "Đăng nhập"!</a>
-            </div>
-            <br>
-            <div class="input-group">
-                <a class="btn link" href="../register.php">Sign Up</a>
-            </div>
+            <?php if (!isLoggedIn()) : ?>
+                <hr><br>
+                <div class="input-group">
+                    <a class="btn link" href="../login.php">Bạn đã nhớ lại mật khẩu? Đến "Đăng nhập"!</a>
+                </div>
+                <br>
+                <div class="input-group">
+                    <a class="btn link" href="../register.php">Sign Up</a>
+                </div>
+            <?php endif; ?>
         </form>
 
     </div>
