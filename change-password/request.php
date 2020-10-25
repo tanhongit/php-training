@@ -1,14 +1,12 @@
 <?php
 session_start();
+include('../functions.php');
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-include('../functions.php');
 include '../lib/config.php';
-
-if (!isset($_POST['change'])) header('location: index.php');
 
 if (!empty($_POST['change'])) {
     $id = $_SESSION['id_change_pass'][$_POST['change']];
@@ -16,60 +14,32 @@ if (!empty($_POST['change'])) {
     $confirmNewPassword = md5($_POST['confirmNewPassword']);
 
     $user = get_a_record('users', $id);
-
+    $email = $user['email'];
     global $conn;
 
     if ($newpassword == $user['password']) {
-        echo "<strong>NO!</strong> Việc thay đổi mật khẩu có vấn đề. Mật khẩu mới của bạn vừa nhập là mật khẩu của bạn hiện tại đó.";
-    } elseif (strlen($_POST['newpassword']) < 8) {
-        echo "<strong>NO!</strong> Việc thay đổi mật khẩu thất bại. Mật khẩu bạn nhập phải dài từ 8 ký tự trở lên !!";
-    }elseif ($newpassword == $confirmNewPassword) {
+        $mess = "<strong>NO!</strong> Việc thay đổi mật khẩu có vấn đề. Mật khẩu mới của bạn vừa nhập là mật khẩu của bạn hiện tại đó.";
+    } elseif (strlen($_POST['newPassword']) < 8) {
+        $mess = "<strong>NO!</strong> Việc thay đổi mật khẩu thất bại. Mật khẩu bạn nhập phải dài từ 8 ký tự trở lên !!";
+    } elseif ($newpassword == $confirmNewPassword) {
         $options = array(
             'id' => $id,
             'password' => $newpassword
         );
-    }
+        save('users', $options);
 
-    if (!preg_match("/([a-z0-9_]+|[a-z0-9_]+\.[a-z0-9_]+)@(([a-z0-9]|[a-z0-9]+\.[a-z0-9]+)+\.([a-z]{2,4}))/i", $email)) {
-        $_SESSION['forgot_pass'] = " Email này không hợp lệ. Vui lòng <a href='javascript: history.go(-1)'>Trở lại</a> và nhập email khác. Hoặc <a href='../login.php'>Đến Trang Login</a>";
-        require('index.php');
-        exit;
-    } elseif (mysqli_num_rows(mysqli_query($conn, "SELECT email FROM users WHERE email='$email'")) < 1) {
-        $_SESSION['forgot_pass'] = "Email này không có người dùng và không tồn tại trong máy chủ. <br> Vui lòng <a href='javascript: history.go(-1)'>Trở lại</a> và nhập lại Email khác. Hoặc <a href='../login.php'>Đến Trang Login</a>";
-        require('index.php');
-        exit;
-    } else {
-
-        $option = array(
-            'order' => 'id'
-        );
-        $user_name = "";
-        $user_id = 0;
-        $users = get_by_options('users', $option);
-        foreach ($users as $user) {
-            if ($user['email'] == $email) {
-                $user_name = $user['username'];
-                $user_id = $user['id'];
-            }
-        }
-
+        //send mail
         require '../vendor/autoload.php';
         include '../lib/setting.php';
         $mail = new PHPMailer(true);
         try {
-            $verificationCode = md5(uniqid($user_id, true));
-            $_SESSION['forgot_pass_Code'] = $verificationCode;
-            $_SESSION['forgot_pass_id'][$verificationCode] = $user_id;
-            $verificationLink = PATH_URL . "forgot-password/result.php?code=" . $verificationCode;
             //content
             $htmlStr = "";
-            $htmlStr .= "Xin chào " . $user_name . ' (' . $email . "),<br /><br />";
-            $htmlStr .= "Chào mừng bạn đến với PHP TRAINING.<br /><br /><br />";
-            $htmlStr .= "Vui lòng truy cập tại link sau để xác thực tài khoản và bắt đầu đổi mật khẩu mới.<br><br>";
-            $htmlStr .= "<a href='{$verificationLink}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>Change New Password</a><br /><br /><br />";
-            $htmlStr .= "Cảm ơn bạn đã tham gia và đồng hành cùng PHP TRAINING.<br><br>";
+            $htmlStr .= "Xin chào " . $user['username'] . ' (' . $email . "),<br /><br />";
+            $htmlStr .= "Mật khẩu của bạn hiện đã được thay đổi cách đây không lâu...<br /><br />";
+            $htmlStr .= "Vui lòng kiểm tra và <a href='" . PATH_URL . "login.php'>Đăng nhập</a></div> lại với mật khẩu mới của bạn.<br><br>";
             $htmlStr .= "Trân trọng,<br />";
-            $htmlStr .= "By TEAM D";
+            $htmlStr .= "By TEAM D<br />";
             //Server settings
             $mail->CharSet = "UTF-8";
             $mail->SMTPDebug = 0; // Enable verbose debug output (0 : ko hiện debug, 1 hiện)
@@ -87,7 +57,7 @@ if (!empty($_POST['change'])) {
             //$mail->addCC('CCemail@gmail.com');
             //$mail->addBCC('BCCemail@gmail.com');
             $mail->isHTML(true); // Set email format to HTML
-            $mail->Subject = 'Forgot Password | PHP TRAINING | Reset your Password | By TEAM D';
+            $mail->Subject = 'You have Change your Password | PHP TRAINING | By Tân TEAM D';
             $mail->Body = $htmlStr;
             $mail->AltBody = $htmlStr; //None HTML
             $result = $mail->send();
@@ -97,7 +67,7 @@ if (!empty($_POST['change'])) {
         } catch (Exception $e) {
             echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }
-        $_SESSION['forgot_pass_suc'] =  "<strong>Done!</strong> Bạn sẽ nhận được tin nhắn Email xác nhận đổi mật khẩu với email mà bạn vừa nhập.<br><br> Vui lòng đến hộp thư và kiểm tra tin nhắn và xác nhận liên kết đổi mật khẩu ở đó!!";
-        require('index.php');
-    }
-}
+        $mess_success = '<strong>Tốt!</strong> Bạn đã thay đổi mật khẩu thành công. Và một tin nhắn thông báo đã được gửi đến Email của người dùng này. Hãy đến trang <a href="../login.php">Đăng nhập</a> và đăng nhập lại.!!';
+    } else $mess = '<strong>NO!</strong> Việc thay đổi mật khẩu có vấn đề. Ô nhập xác thực mật khẩu không đúng với mật khẩu mới mà bạn nhập vào !!';
+}else header('location: index.php');
+require('result.php');
