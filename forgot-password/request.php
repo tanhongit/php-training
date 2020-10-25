@@ -52,7 +52,7 @@ if (!empty($_POST['email'])) {
             $htmlStr .= "<a href='{$verificationLink}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>Change New Password</a><br /><br /><br />";
             $htmlStr .= "Cảm ơn bạn đã tham gia và đồng hành cùng PHP TRAINING.<br><br>";
             $htmlStr .= "Trân trọng,<br />";
-            $htmlStr .= "<a href='https://tanhongit.com/' target='_blank'>By TEAM D</a><br />";
+            $htmlStr .= "By TEAM D";
             //Server settings
             $mail->CharSet = "UTF-8";
             $mail->SMTPDebug = 0; // Enable verbose debug output (0 : ko hiện debug, 1 hiện)
