@@ -297,3 +297,17 @@ function getLink($id)
 	$_SESSION['links_edit'][$random] = $_SESSION['info_user_id'][$random] = $id;
     return "$random";
 }
+
+function get_a_record($table, $id, $select = '*')
+{
+    $id = intval($id);
+    global $linkconnectDB;
+    $sql = "SELECT $select FROM `$table` WHERE id=$id";
+    $query = mysqli_query($linkconnectDB, $sql) or die(mysqli_error($linkconnectDB));
+    $data = NULL;
+    if (mysqli_num_rows($query) > 0) {
+        $data = mysqli_fetch_assoc($query);
+        mysqli_free_result($query);
+    }
+    return $data;
+}
