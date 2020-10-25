@@ -38,7 +38,7 @@
         <form action="request.php" method="post" style="text-align: center;">
             <div class="input-group">
                 <label>Please enter your email to verify your new password!</label><br>
-                <input type="text" name="email" placeholder="Enter Email" autofocus />
+                <input required type="email" name="email" placeholder="Enter Email" autofocus />
             </div>
             <br>
             <button type="submit" class="btn btn-info">Send Request</button>

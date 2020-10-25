@@ -32,11 +32,11 @@ $_SESSION['id_change_pass'][$_SESSION['change_pass']] = $id;
             <input type="hidden" name="change" value="<?= $_SESSION['change_pass'] ?>">
             <div class="input-group">
                 <label>Enter your password!</label><br>
-                <input type="password" name="newPassword" placeholder="Enter Password" autofocus />
+                <input required type="password" name="newPassword" placeholder="Enter Password" autofocus />
             </div><br>
             <div class="input-group">
                 <label>Please confirm your password!</label><br>
-                <input type="password" name="confirmNewPassword" placeholder="Enter Password Again" autofocus />
+                <input required type="password" name="confirmNewPassword" placeholder="Enter Password Again" autofocus />
             </div>
             <br>
             <button type="submit" class="btn btn-info">Send Request</button>

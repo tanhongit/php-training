@@ -84,4 +84,4 @@ if (!empty($_POST['email'])) {
         $_SESSION['forgot_pass_suc'] =  "<strong>Done!</strong> Bạn sẽ nhận được tin nhắn Email xác nhận đổi mật khẩu với email mà bạn vừa nhập.<br><br> Vui lòng đến hộp thư và kiểm tra tin nhắn và xác nhận liên kết đổi mật khẩu ở đó!!";
         require('index.php');
     }
-}
+} else header('location: index.php');
