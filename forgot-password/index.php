@@ -37,7 +37,7 @@
         </div>
         <form action="request.php" method="post" style="text-align: center;">
             <div class="input-group">
-                <label>Please enter your email to verify your new password</label><br>
+                <label>Please enter your email to verify your new password!</label><br>
                 <input type="text" name="email" placeholder="Enter Email" autofocus />
             </div>
             <br>

@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="public/css/styles.css">
-	<link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="public/css/font-awesome.min.css">
-</head>
-<body>
-    
-</body>
-</html>
+<?php
+session_start();
+
+if (!isset($_POST['code'])) header('location: index.php');
+
+if ($_SESSION['forgot_pass_Code'] == $_GET['code']) {
+    header('location:../change-password/index.php?code=' . $_SESSION['forgot_pass_Code']);
+} else {
+}

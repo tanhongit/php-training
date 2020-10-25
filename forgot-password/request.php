@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -6,6 +7,8 @@ use PHPMailer\PHPMailer\Exception;
 
 include('../functions.php');
 include '../lib/config.php';
+
+if (!isset($_POST['email'])) header('location: index.php');
 
 if (!empty($_POST['email'])) {
     $email = $_POST['email'];
@@ -23,16 +26,27 @@ if (!empty($_POST['email'])) {
         $option = array(
             'order' => 'id'
         );
+        $user_name = "";
+        $user_id = 0;
         $users = get_by_options('users', $option);
+        foreach ($users as $user) {
+            if ($user['email'] == $email) {
+                $user_name = $user['username'];
+                $user_id = $user['id'];
+            }
+        }
 
         require '../vendor/autoload.php';
         include '../lib/setting.php';
         $mail = new PHPMailer(true);
         try {
-            $verificationLink = PATH_URL . "forgot-password/result.php&code=" . $verification_Code;
+            $verificationCode = md5(uniqid($user_id, true));
+            $_SESSION['forgot_pass_Code'] = $verificationCode;
+            $_SESSION['forgot_pass_id'][$verificationCode] = $user_id;
+            $verificationLink = PATH_URL . "forgot-password/result.php?code=" . $verificationCode;
             //content
             $htmlStr = "";
-            $htmlStr .= "Xin chào " . $username . ' (' . $email . "),<br /><br />";
+            $htmlStr .= "Xin chào " . $user_name . ' (' . $email . "),<br /><br />";
             $htmlStr .= "Chào mừng bạn đến với PHP TRAINING.<br /><br /><br />";
             $htmlStr .= "Vui lòng truy cập tại link sau để xác thực tài khoản và bắt đầu đổi mật khẩu mới.<br><br>";
             $htmlStr .= "<a href='{$verificationLink}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>Change New Password</a><br /><br /><br />";
