@@ -43,7 +43,7 @@ $options_search = array(
     'offset' => $offset,
     'order_by' => 'id ASC'
 );
-$query = "SELECT * FROM users WHERE username LIKE '%$search%' OR fullname LIKE '%$search%' ";
+$query = "SELECT * FROM users WHERE username LIKE '%$search%' OR fullname LIKE '%$search%' OR email LIKE  '%$search%'";
 global $conn;
 $sql = mysqli_query($conn, $query);
 $num = mysqli_num_rows($sql);
