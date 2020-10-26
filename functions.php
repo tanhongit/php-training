@@ -84,15 +84,15 @@ function register()
 	$mail = new PHPMailer(true);
 	try {
 		$verificationCode_iduser = md5(uniqid("Email của bạn chưa active. Nhấn vào đây để active nhé!", true));
-		$verificationCode = PATH_URL . "confirm-user/result.php?code=" . $verificationCode_iduser;
+		$verificationCode = PATH_URL . "confirm-user/active.php?code=" . $verificationCode_iduser;
 		//content
 		$_SESSION['activeCode'] = $verificationCode_iduser;
 
 		$_SESSION['verificationLink'] = $verificationCode;
 		$htmlStr = "";
 		$htmlStr .= "Xin chào " . $username . ' (' . $email . "),<br /><br />";
-		$htmlStr .= "Vui lòng nhấp vào nút bên dưới để xác minh đăng ký của bạn và có quyền truy cập vào trang quản trị của PHP Training.<br /><br /><br />";
-		$htmlStr .= "<a href='{$_SESSION['verificationLink']}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>VERIFY EMAIL</a><br /><br /><br />";
+		$htmlStr .= "Vui lòng nhấp vào nút bên dưới để xác minh đăng ký của bạn và có quyền truy cập vào trang người dùng cá nhân của PHP Training.<br /><br /><br />";
+		$htmlStr .= "<a href='{$_SESSION['verificationLink']}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>VERIFY ACCOUNT</a><br /><br /><br />";
 		$htmlStr .= "Cảm ơn bạn đã tham gia thành một thành viên mới trong website<br><br>";
 		$htmlStr .= "Trân trọng.<br />";
 		//Server settings
@@ -108,7 +108,7 @@ function register()
 		//Recipients
 		$mail->setFrom(SMTP_UNAME, "PHP Training");
 		$mail->addAddress($_POST['email'], $email); // Add a recipient | name is option tên người nhận
-		$mail->addReplyTo(SMTP_UNAME, 'Tên người trả lời');
+		$mail->addReplyTo(SMTP_UNAME, 'PHP TRAINING');
 		$mail->isHTML(true); // Set email format to HTML
 		$mail->Subject = 'Verification Users | PHP Training';
 		$mail->Body = $htmlStr;
