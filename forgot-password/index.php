@@ -41,6 +41,7 @@
                 <input required type="email" name="email" placeholder="Enter Email" autofocus />
             </div>
             <br>
+            <button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button>
             <button type="submit" class="btn btn-info">Send Request</button>
         </form>
     </div>
