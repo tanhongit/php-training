@@ -67,7 +67,7 @@ if (!empty($_POST['change'])) {
         } catch (Exception $e) {
             echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }
-        $mess_success = '<strong>Tốt!</strong> Bạn đã thay đổi mật khẩu thành công. Và một tin nhắn thông báo đã được gửi đến Email của người dùng này.';
+        $mess_success = '<strong>Tốt!</strong> Bạn đã thay đổi mật khẩu thành công. Và một tin nhắn thông báo đã được gửi đến Email của người dùng này.<br>Go to <a href="../home">Home</a>';
     } else $mess = '<strong>NO!</strong> Việc thay đổi mật khẩu có vấn đề. Ô nhập xác thực mật khẩu không đúng với mật khẩu mới mà bạn nhập vào !!<br><button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button> ';
 } else header('location: index.php');
 require('result.php');

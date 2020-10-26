@@ -2,10 +2,10 @@
 session_start();
 include '../functions.php';
 
-if (!isset($_GET['code']) || empty($_GET['code'])) {
+if (!isset($_GET['code']) || empty($_GET['code']) || !isLoggedIn()) {
     header('location: ../index.php');
 }elseif(!isset($_SESSION['activeCode'])){
-    $mess = "<strong>Error!</strong> Liên kết đã quá hạn!! <a href='../index.php'>Đăng nhập</a>";
+    $mess_er = "<strong>Error!</strong> Liên kết đã quá hạn!! <a href='/resend.php'>Gửi lại yêu cầu</a>";
 }
 
 if (isset($_SESSION['activeCode']) && $_SESSION['activeCode'] == $_GET['code']) {
@@ -30,6 +30,6 @@ if (isset($_SESSION['activeCode']) && $_SESSION['activeCode'] == $_GET['code']) 
         'status' => 1
     );
     save('users', $user_edit);
-    $mess = "<strong>Done!</strong> Bạn đã kích hoạt tài khoản thành công, giờ bạn đã có thể đăng nhập vào website Hãy đến <a href='../login.php'>Đăng nhập</a>";
+    $mess = "<strong>Done!</strong> Bạn đã kích hoạt tài khoản thành công, giờ bạn đã có thể đăng nhập vào website Hãy đến trang <a href='../index.php'>Thông tin cá nhân</a>";
 }
 require('result.php');

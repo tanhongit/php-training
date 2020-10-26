@@ -19,6 +19,15 @@
                 </h3>
             </div>
         <?php endif ?>
+        <?php if (isset($mess_er)) : ?>
+            <div class="error danger" style="text-align: center;">
+                <h3>
+                    <?php
+                    echo $mess_er;
+                    ?>
+                </h3>
+            </div>
+        <?php endif ?>
     </div>
 </body>
 </html>

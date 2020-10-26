@@ -45,6 +45,7 @@ $_SESSION['id_change_pass_user'][$_SESSION['change_pass_user']] = $id;
                 <input required type="password" name="confirmNewPassword" placeholder="Enter Password Again" autofocus />
             </div>
             <br>
+            <button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button>
             <button type="submit" class="btn btn-info">Send Request</button>
             <br>
         </form>

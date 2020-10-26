@@ -28,11 +28,12 @@ try {
             $verification_Code = $user['verificationCode'];
         }
     }
+    $_SESSION['resend_confirm_user'] = $verification_Code;
     //content
     $htmlStr = "";
     $htmlStr .= "Xin chào " . $username . ' (' . $email . "),<br /><br />";
     $htmlStr .= "Vui lòng nhấp vào nút bên dưới để xác minh đăng ký của bạn và có quyền truy cập vào trang người dùng cá nhân của PHP Training.<br /><br /><br />";
-    $htmlStr .= "<a href='" . PATH_URL . "confirm-user/active.php?code=" . $verification_Code . "' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>VERIFY ACCOUNT</a><br /><br /><br />";
+    $htmlStr .= "<a href='" . PATH_URL . "confirm-user/reactive.php?code=" . $verification_Code . "' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>VERIFY ACCOUNT</a><br /><br /><br />";
     $htmlStr .= "Cảm ơn bạn đã tham gia thành một thành viên mới trong website<br><br>";
     $htmlStr .= "Trân trọng.<br />";
     //Server settings
