@@ -15,7 +15,7 @@ include('functions.php')
 	<div class="header">
 		<h2>Register</h2>
 	</div>
-	<form method="post" action="confirm-user/request.php">
+	<form method="post">
 		<?php echo display_error(); ?>
 		<div class="input-group">
 			<label>Username</label>
