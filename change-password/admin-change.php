@@ -3,19 +3,16 @@ session_start();
 
 include('../functions.php');
 
-!isLoggedIn() || isAdmin() || empty($_GET['code']) ? header('location: index.php') : '';
+!isLoggedIn() || !isAdmin() || empty($_GET['code']) ? header('location: index.php') : '';
 
 $id = 0;
 if (!empty($_GET['code'])) {
-    if ($_SESSION['user_change'] == $_GET['code']) {
-        $id = $_SESSION['user_change_id'][$_GET['code']];
+    if ($_SESSION['admin_change'] == $_GET['code']) {
+        $id = $_SESSION['admin_change_id'][$_GET['code']];
     } else header('location: ../index.php');
 } else header('location: ../index.php');
-$_SESSION['change_pass_user'] = getLink($id);
-$_SESSION['id_change_pass_user'][$_SESSION['change_pass_user']] = $id;
-?>
-<?php
-
+$_SESSION['change_pass_admin'] = getLink($id);
+$_SESSION['id_change_pass_admin'][$_SESSION['change_pass_admin']] = $id;
 ?>
 <html>
 
@@ -30,8 +27,8 @@ $_SESSION['id_change_pass_user'][$_SESSION['change_pass_user']] = $id;
         <div class="header">
             <h2>Change Password</h2>
         </div>
-        <form action="request-user.php" method="post" style="text-align: center;">
-            <input type="hidden" name="change" value="<?= $_SESSION['change_pass_user'] ?>">
+        <form action="request-admin.php" method="post" style="text-align: center;">
+            <input type="hidden" name="change" value="<?= $_SESSION['change_pass_admin'] ?>">
             <div class="input-group">
                 <label>Enter your current password!</label><br>
                 <input required type="password" name="currentPassword" placeholder="Enter Password" autofocus />

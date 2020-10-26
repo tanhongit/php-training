@@ -67,9 +67,6 @@ if (!empty($_POST['change'])) {
         } catch (Exception $e) {
             echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }
-        if (isset($_SESSION['user'])) {
-            unset($_SESSION['user']);
-        }
         $mess_success = '<strong>Tốt!</strong> Bạn đã thay đổi mật khẩu thành công. Và một tin nhắn thông báo đã được gửi đến Email của người dùng này. Hãy đến trang <a href="../login.php">Đăng nhập</a> và đăng nhập lại.!!';
     } else $mess = '<strong>NO!</strong> Việc thay đổi mật khẩu có vấn đề. Ô nhập xác thực mật khẩu không đúng với mật khẩu mới mà bạn nhập vào !!';
 } else header('location: index.php');
