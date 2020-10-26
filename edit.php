@@ -26,6 +26,8 @@ if (isset($_GET['edit'])) {
         $data = mysqli_fetch_assoc($result);
     }
 }
+$_SESSION['user_change'] = getLink($data['id']);
+$_SESSION['user_change_id'][$_SESSION['user_change']] = $data['id'];
 ?>
 
 <html>
@@ -61,7 +63,12 @@ if (isset($_GET['edit'])) {
         </div>
     </form>
     <div class="back" style="text-align: center; padding-top: 10px;">
-        <button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button> <a type="button" class="btn btn-info" href="change-password/index.php?code=<?= $link_edit ?>">Change Password</a>
+        <button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button> 
+        <?php if(isAdmin()) : ?>
+        <a type="button" class="btn btn-info" href="change-password/admin-change.php?code=<?= $link_edit ?>">Change Password</a>
+        <?php else : ?>
+            <a type="button" class="btn btn-info" href="change-password/user-change.php?code=<?= $_SESSION['user_change'] ?>">Change Password</a>
+        <?php endif; ?>
     </div>
 
 </body>

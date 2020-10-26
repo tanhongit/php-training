@@ -9,7 +9,8 @@ use PHPMailer\PHPMailer\Exception;
 include '../lib/config.php';
 
 if (!empty($_POST['change'])) {
-    $id = $_SESSION['id_change_pass'][$_POST['change']];
+    $id = $_SESSION['id_change_pass_user'][$_POST['change']];
+    $currentPassword = md5($_POST['currentPassword']);
     $newpassword = md5($_POST['newPassword']);
     $confirmNewPassword = md5($_POST['confirmNewPassword']);
 
@@ -17,10 +18,12 @@ if (!empty($_POST['change'])) {
     $email = $user['email'];
     global $conn;
 
-    if ($newpassword == $user['password']) {
-        $mess = "<strong>NO!</strong> Việc thay đổi mật khẩu có vấn đề. Mật khẩu mới của bạn vừa nhập là mật khẩu của bạn hiện tại đó.";
+    if ($user['password'] != $currentPassword) {
+        $mess = "<strong>NO!</strong> Việc thay đổi mật khẩu có vấn đề. Mật khẩu hiện tại không đúng.<br><button type='button' class='btn btn-info' onClick='javascript:history.go(-1)'>Back</button> ";
+    } elseif ($newpassword == $user['password']) {
+        $mess = "<strong>NO!</strong> Việc thay đổi mật khẩu có vấn đề. Mật khẩu mới của bạn vừa nhập là mật khẩu của bạn hiện tại đó.<br><button type='button' class='btn btn-info' onClick='javascript:history.go(-1)'>Back</button> ";
     } elseif (strlen($_POST['newPassword']) < 8) {
-        $mess = "<strong>NO!</strong> Việc thay đổi mật khẩu thất bại. Mật khẩu bạn nhập phải dài từ 8 ký tự trở lên !!";
+        $mess = "<strong>NO!</strong> Việc thay đổi mật khẩu thất bại. Mật khẩu bạn nhập phải dài từ 8 ký tự trở lên !!<br><button type='button' class='btn btn-info' onClick='javascript:history.go(-1)'>Back</button> ";
     } elseif ($newpassword == $confirmNewPassword) {
         $options = array(
             'id' => $id,
@@ -67,10 +70,7 @@ if (!empty($_POST['change'])) {
         } catch (Exception $e) {
             echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }
-        if (isset($_SESSION['user'])) {
-            unset($_SESSION['user']);
-        }
         $mess_success = '<strong>Tốt!</strong> Bạn đã thay đổi mật khẩu thành công. Và một tin nhắn thông báo đã được gửi đến Email của người dùng này. Hãy đến trang <a href="../login.php">Đăng nhập</a> và đăng nhập lại.!!';
-    } else $mess = '<strong>NO!</strong> Việc thay đổi mật khẩu có vấn đề. Ô nhập xác thực mật khẩu không đúng với mật khẩu mới mà bạn nhập vào !!';
+    } else $mess = '<strong>NO!</strong> Việc thay đổi mật khẩu có vấn đề. Ô nhập xác thực mật khẩu không đúng với mật khẩu mới mà bạn nhập vào !!<br><button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button> ';
 } else header('location: index.php');
 require('result.php');
