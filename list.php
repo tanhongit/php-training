@@ -74,7 +74,7 @@ $pagination = pagination_admin($url, $page, $total);
 <html>
 
 <head>
-    <title>Register</title>
+    <title>List User</title>
 
     <link rel="stylesheet" href="public/css/bootstrap.min.css">
     <link rel="stylesheet" href="public/css/font-awesome.min.css">
