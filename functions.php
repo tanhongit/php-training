@@ -11,7 +11,14 @@ $errors   = array();
 
 
 if (isset($_POST['register_btn'])) {
-	register();
+	global $conn, $errors, $username, $fullname, $email;
+	$username    =  escape($_POST['username']);
+	$email       =  escape($_POST['email']);
+	if (mysqli_num_rows(mysqli_query($conn, "SELECT username FROM users WHERE username='$username'")) != 0) {
+		array_push($errors, "Username đã tồn tại");
+	} elseif (mysqli_num_rows(mysqli_query($conn, "SELECT email FROM users WHERE email='$email'"))) {
+		array_push($errors, "Username đã tồn tại");
+	} else register();
 }
 
 function register()
