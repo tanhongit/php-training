@@ -30,10 +30,6 @@ $_SESSION['id_change_pass_admin'][$_SESSION['change_pass_admin']] = $id;
         <form action="request-admin.php" method="post" style="text-align: center;">
             <input type="hidden" name="change" value="<?= $_SESSION['change_pass_admin'] ?>">
             <div class="input-group">
-                <label>Enter your current password!</label><br>
-                <input required type="password" name="currentPassword" placeholder="Enter Password" autofocus />
-            </div><br>
-            <div class="input-group">
                 <label>Enter your new password!</label><br>
                 <input required type="password" name="newPassword" placeholder="Enter Password" autofocus />
             </div><br>
