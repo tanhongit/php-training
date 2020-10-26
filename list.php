@@ -69,6 +69,14 @@ if ($search != "") {
 $total = ceil($total_rows / $limit);
 $pagination = pagination_admin($url, $page, $total);
 
+
+
+
+
+
+
+$querySort = "SELECT * FROM users ORDER BY id ASC";
+$resultSort = mysqli_query($conn, $querySort);
 ?>
 
 <html>
@@ -79,6 +87,8 @@ $pagination = pagination_admin($url, $page, $total);
     <link rel="stylesheet" href="public/css/bootstrap.min.css">
     <link rel="stylesheet" href="public/css/font-awesome.min.css">
     <link rel="stylesheet" href="public/css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -98,19 +108,7 @@ $pagination = pagination_admin($url, $page, $total);
             <h2>List User</h2>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <form action="list.php?list=" method="post">
-                    <div class="input-group">
-                        <label>Sort By:</label>
-                        <select class="form-control" name="list" id="list">
-                            <option name="list" value="6">ID ASC</option>
-                            <option name="list" value="5">ID DESC</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Go</button>
-                </form>
-            </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <form action="list.php" method="get">
                     <div class="input-group">
                         <label>Search:</label>
@@ -123,63 +121,68 @@ $pagination = pagination_admin($url, $page, $total);
         <br>
         <form>
             <?php echo display_error(); ?>
+            <div class="table-responsive" id="users">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"><a class="column_sort" id="id" data-order="asc">ID</a></th>
+                            <th scope="col"><a class="column_sort" id="username" data-order="asc">Username</a></th>
+                            <th scope="col"><a class="column_sort" id="fullname" data-order="asc">Full Name</a></th>
+                            <th scope="col"><a class="column_sort" id="email" data-order="asc">Email</a></th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (isset($_REQUEST['ok'])) {
+                            if ($search == "") {
+                                header("location: list.php");
+                            } elseif ($num > 0) {
+                                echo "$num kết quả trả về với từ khóa '<b>$search</b>'";
+                                while ($result = mysqli_fetch_assoc($sql)) { ?>
+                                    <tr scope="row">
+                                        <td><?php echo $result['id']; ?></td>
+                                        <td><?php echo $result['username']; ?></td>
+                                        <td><?php echo $result['fullname']; ?></td>
+                                        <td><?php echo $result['email']; ?></td>
+                                        <td>
+                                            <a href="userinfo.php?user_id=<?= getLink($result['id']) ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            <a href="edit.php?edit=<?= getLink($result['id']) ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= getLink($result['id']) ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                        </td>
+                                    </tr>
+                            <?php  }
+                            } else {
+                                echo "Khong tim thay ket qua!";
+                            }
+                            ?>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Full name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if (isset($_REQUEST['ok'])) {
-                        if ($search == "") {
-                            header("location: list.php");
-                        } elseif ($num > 0) {
-                            echo "$num kết quả trả về với từ khóa '<b>$search</b>'";
-                            while ($result = mysqli_fetch_assoc($sql)) { ?>
+                            <?php } else {
+
+                            while ($rowSort = mysqli_fetch_array($resultSort)) {
+                            ?>
                                 <tr scope="row">
-                                    <td><?php echo $result['id']; ?></td>
-                                    <td><?php echo $result['username']; ?></td>
-                                    <td><?php echo $result['fullname']; ?></td>
-                                    <td><?php echo $result['email']; ?></td>
+                                    <td><?php echo $rowSort['id']; ?></td>
+                                    <td><?php echo $rowSort['username']; ?></td>
+                                    <td><?php echo $rowSort['fullname']; ?></td>
+                                    <td><?php echo $rowSort['email']; ?></td>
                                     <td>
-                                        <a href="userinfo.php?user_id=<?= getLink($result['id']) ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                        <a href="edit.php?edit=<?= getLink($result['id']) ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                        <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= getLink($result['id']) ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                        <a href="userinfo.php?user_id=<?= getLink($rowSort['id']) ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href="edit.php?edit=<?= getLink($rowSort['id']) ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                        <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= getLink($rowSort['id']) ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
-                        <?php  }
-                        } else {
-                            echo "Khong tim thay ket qua!";
+                            <?php
+                            }
+                            ?>
+                        <?php
+
                         }
                         ?>
 
-                        <?php } else {
-                        foreach ($_SESSION['results_user'] as $result) : ?>
-                            <tr scope="row">
-                                <td><?php echo $result['id']; ?></td>
-                                <td><?php echo $result['username']; ?></td>
-                                <td><?php echo $result['fullname']; ?></td>
-                                <td><?php echo $result['email']; ?></td>
-                                <td>
-                                    <a href="userinfo.php?user_id=<?= getLink($result['id']) ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                    <a href="edit.php?edit=<?= getLink($result['id']) ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= getLink($result['id']) ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
-
-                                </td>
-                            </tr>
-                    <?php
-                        endforeach;
-                    }
-                    ?>
-
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
             <?php if ($search == "") : ?>
                 <div class="row">
                     <div class="col-md-12">
@@ -193,5 +196,33 @@ $pagination = pagination_admin($url, $page, $total);
         </div>
     </div>
 </body>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.column_sort', function() {
+            var column_name = $(this).attr("id");
+            var order = $(this).data("order");
+            var arrow = '';
+            //glyphicon glyphicon-arrow-up  
+            //glyphicon glyphicon-arrow-down  
+            if (order == 'desc') {
+                arrow = '&nbsp;<span class="glyphicon glyphicon-arrow-down"></span>';
+            } else {
+                arrow = '&nbsp;<span class="glyphicon glyphicon-arrow-up"></span>';
+            }
+            $.ajax({
+                url: "sort.php",
+                method: "POST",
+                data: {
+                    column_name: column_name,
+                    order: order
+                },
+                success: function(data) {
+                    $('#users').html(data);
+                    $('#' + column_name + '').append(arrow);
+                }
+            })
+        });
+    });
+</script>
 
 </html>
