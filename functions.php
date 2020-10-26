@@ -1,6 +1,8 @@
 <?php
-
 $conn = mysqli_connect('localhost', 'root', '', 'userlogin');
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $username = "";
 $fullname = "";
@@ -16,7 +18,6 @@ function register()
 {
 
 	global $conn, $errors, $username, $fullname, $email;
-
 	$username    =  escape($_POST['username']);
 	$fullname    =  escape($_POST['fullname']);
 	$email       =  escape($_POST['email']);
@@ -40,20 +41,35 @@ function register()
 	}
 
 	if (count($errors) == 0) {
-		$password = md5($password_1);
+		$user_add = array(
+			'id' => 0,
+			'username' => escape($_POST['username']),
+			'fullname' => escape($_POST['fullname']),
+			'password' => md5($_POST['password_1']),
+			'email' => escape($_POST['email']),
+		);
 
 		if (isset($_POST['user_type'])) {
-			$user_type = escape($_POST['user_type']);
-			$query = "INSERT INTO users (username,fullname, email, user_type, password) 
-					  VALUES('$username', '$fullname', '$email', '$user_type', '$password')";
-			mysqli_query($conn, $query);
+			$user_add1 = array(
+				'id' => 0,
+				'username' => escape($_POST['username']),
+				'fullname' => escape($_POST['fullname']),
+				'user_type' => escape($_POST['user_type']),
+				'password' => md5($_POST['password_1']),
+				'email' => escape($_POST['email']),
+			);
+			$user_id = save('users', $user_add1);
+			// $user_type = escape($_POST['user_type']);
+			// $query = "INSERT INTO users (username,fullname, email, user_type, password) 
+			// 		  VALUES('$username', '$fullname', '$email', '$user_type', '$password')";
+			// mysqli_query($conn, $query);
 			$_SESSION['success']  = "New user successfully created!!";
-			header('location: home.php');
+			header('location: index.php');
 		} else {
-			$query = "INSERT INTO users (username, fullname, email, user_type, password) 
-					  VALUES('$username', '$fullname', '$email', 'user', '$password')";
-			mysqli_query($conn, $query);
-
+			// $query = "INSERT INTO users (username, fullname, email, user_type, password) 
+			// 		  VALUES('$username', '$fullname', '$email', 'user', '$password')";
+			// mysqli_query($conn, $query);
+			$user_id = save('users', $user_add);
 			$logged_in_user_id = mysqli_insert_id($conn);
 
 			$_SESSION['user'] = getUserById($logged_in_user_id); // put logged in user in session
@@ -61,6 +77,54 @@ function register()
 			header('location: index.php');
 		}
 	}
+	//send mail
+	include 'lib/config.php';
+	require 'vendor/autoload.php';
+	include 'lib/setting.php';
+	$mail = new PHPMailer(true);
+	try {
+		$verificationCode_iduser = md5(uniqid("Email của bạn chưa active. Nhấn vào đây để active nhé!", true));
+		$verificationCode = PATH_URL . "confirm-user/result.php?code=" . $verificationCode_iduser;
+		//content
+		$_SESSION['activeCode'] = $verificationCode_iduser;
+
+		$_SESSION['verificationLink'] = $verificationCode;
+		$htmlStr = "";
+		$htmlStr .= "Xin chào " . $username . ' (' . $email . "),<br /><br />";
+		$htmlStr .= "Vui lòng nhấp vào nút bên dưới để xác minh đăng ký của bạn và có quyền truy cập vào trang quản trị của PHP Training.<br /><br /><br />";
+		$htmlStr .= "<a href='{$_SESSION['verificationLink']}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>VERIFY EMAIL</a><br /><br /><br />";
+		$htmlStr .= "Cảm ơn bạn đã tham gia thành một thành viên mới trong website<br><br>";
+		$htmlStr .= "Trân trọng.<br />";
+		//Server settings
+		$mail->CharSet = "UTF-8";
+		$mail->SMTPDebug = 0; // Enable verbose debug output (0 : ko hiện debug, 1 hiện)
+		$mail->isSMTP(); // Set mailer to use SMTP
+		$mail->Host = SMTP_HOST;  // Specify main and backup SMTP servers
+		$mail->SMTPAuth = true; // Enable SMTP authentication
+		$mail->Username = SMTP_UNAME; // SMTP username
+		$mail->Password = SMTP_PWORD; // SMTP password
+		$mail->SMTPSecure = 'ssl'; // Enable TLS encryption, `ssl` also accepted
+		$mail->Port = SMTP_PORT; // TCP port to connect to
+		//Recipients
+		$mail->setFrom(SMTP_UNAME, "PHP Training");
+		$mail->addAddress($_POST['email'], $email); // Add a recipient | name is option tên người nhận
+		$mail->addReplyTo(SMTP_UNAME, 'Tên người trả lời');
+		$mail->isHTML(true); // Set email format to HTML
+		$mail->Subject = 'Verification Users | PHP Training';
+		$mail->Body = $htmlStr;
+		$mail->AltBody = $htmlStr; //None HTML
+		$result = $mail->send();
+		if (!$result) {
+			$error = "Có lỗi xảy ra trong quá trình gửi mail";
+		}
+	} catch (Exception $e) {
+		echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+	}
+	$verificationCode_add = array(
+		'id' => $user_id,
+		'verificationCode' => $verificationCode_iduser
+	);
+	save('users', $verificationCode_add);
 }
 
 function edit($user_id)
@@ -183,6 +247,7 @@ function login()
 				$_SESSION['user'] = $logged_in_user;
 				$_SESSION['success']  = "You are now logged in";
 
+
 				if (isset($_POST['remember'])) {
 					//thiết lập cookie username và password
 					setcookie("user", $row['username'], time() + (86400 * 30));
@@ -295,38 +360,38 @@ function getLink($id)
 {
 	$random = md5(uniqid($id));
 	$_SESSION['links_edit'][$random] = $_SESSION['info_user_id'][$random] = $id;
-    return "$random";
+	return "$random";
 }
 
 function get_a_record($table, $id, $select = '*')
 {
-    $id = intval($id);
-    global $conn;
-    $sql = "SELECT $select FROM `$table` WHERE id=$id";
-    $query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-    $data = NULL;
-    if (mysqli_num_rows($query) > 0) {
-        $data = mysqli_fetch_assoc($query);
-        mysqli_free_result($query);
-    }
-    return $data;
+	$id = intval($id);
+	global $conn;
+	$sql = "SELECT $select FROM `$table` WHERE id=$id";
+	$query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+	$data = NULL;
+	if (mysqli_num_rows($query) > 0) {
+		$data = mysqli_fetch_assoc($query);
+		mysqli_free_result($query);
+	}
+	return $data;
 }
 
 function save($table, $data = array())
 {
-    $values = array();
-    global $conn;
-    foreach ($data as $key => $value) {
-        $value = mysqli_real_escape_string($conn, $value);
-        $values[] = "`$key`='$value'";
-    }
-    $id = intval($data['id']);
-    if ($id > 0) {
-        $sql = "UPDATE `$table` SET " . implode(',', $values) . " WHERE id=$id";
-    } else {
-        $sql = "INSERT INTO `$table` SET " . implode(',', $values);
-    }
-    mysqli_query($conn, $sql) or die(mysqli_error($conn));
-    $id = ($id > 0) ? $id : mysqli_insert_id($conn);
-    return $id;
+	$values = array();
+	global $conn;
+	foreach ($data as $key => $value) {
+		$value = mysqli_real_escape_string($conn, $value);
+		$values[] = "`$key`='$value'";
+	}
+	$id = intval($data['id']);
+	if ($id > 0) {
+		$sql = "UPDATE `$table` SET " . implode(',', $values) . " WHERE id=$id";
+	} else {
+		$sql = "INSERT INTO `$table` SET " . implode(',', $values);
+	}
+	mysqli_query($conn, $sql) or die(mysqli_error($conn));
+	$id = ($id > 0) ? $id : mysqli_insert_id($conn);
+	return $id;
 }
