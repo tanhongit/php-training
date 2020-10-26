@@ -9,7 +9,7 @@ if (!isLoggedIn()) {
 
 $user = get_a_record('users', $_SESSION['user']['id']);
 if ($user['status'] == 0) {
-	$mess = "You must active your email!! <a href='confirm-user/resend.php'>Resend Request</a>";
+	$mess = "You must active your account!! Please check your mail! OR <a href='confirm-user/resend.php'>Resend Request</a>";
 }
 
 ?>
