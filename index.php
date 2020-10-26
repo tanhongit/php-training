@@ -6,6 +6,12 @@ if (!isLoggedIn()) {
 	$_SESSION['msg'] = "You must log in first";
 	header('location: login.php');
 }
+
+$user = get_a_record('users', $_SESSION['user']['id']);
+if ($user['status'] == 0) {
+	$mess = "bạn phải kích hoạt email!!";
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -29,6 +35,15 @@ if (!isLoggedIn()) {
 					<?php
 					echo $_SESSION['success'];
 					unset($_SESSION['success']);
+					?>
+				</h3>
+			</div>
+		<?php endif ?>
+		<?php if (isset($mess)) : ?>
+			<div class="error danger">
+				<h3>
+					<?php
+					echo $mess;
 					?>
 				</h3>
 			</div>
