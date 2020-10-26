@@ -3,11 +3,12 @@ session_start();
 include '../functions.php';
 
 if (!isset($_GET['code']) || empty($_GET['code'])) {
+    header('location: ../index.php');
+}elseif(!isset($_SESSION['activeCode'])){
     $mess = "<strong>Error!</strong> Liên kết đã quá hạn!! <a href='../index.php'>Đăng nhập</a>";
 }
 
-
-if (isset($_SESSION['verificationLink']) && $_SESSION['activeCode'] == $_GET['code']) {
+if (isset($_SESSION['activeCode']) && $_SESSION['activeCode'] == $_GET['code']) {
     $select_user_option = array(
         'order_by' => 'id'
     );

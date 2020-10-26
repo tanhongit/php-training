@@ -4,8 +4,8 @@ session_start();
 include('functions.php');
 
 if (!isLoggedIn()) {
-	$_SESSION['msg'] = "You must log in first";
-	header('location: login.php');
+    $_SESSION['msg'] = "You must log in first";
+    header('location: login.php');
 }
 
 if (!isAdmin()) {
@@ -74,7 +74,7 @@ $pagination = pagination_admin($url, $page, $total);
 <html>
 
 <head>
-    <title>List User</title>
+    <title>Register</title>
 
     <link rel="stylesheet" href="public/css/bootstrap.min.css">
     <link rel="stylesheet" href="public/css/font-awesome.min.css">
@@ -84,16 +84,16 @@ $pagination = pagination_admin($url, $page, $total);
 <body>
     <div class="container">
         <!-- notification message -->
-		<?php if (isset($_SESSION['success'])) : ?>
-			<div class="error success">
-				<h3>
-					<?php
-					echo $_SESSION['success'];
-					unset($_SESSION['success']);
-					?>
-				</h3>
-			</div>
-		<?php endif ?>
+        <?php if (isset($_SESSION['success'])) : ?>
+            <div class="error success">
+                <h3>
+                    <?php
+                    echo $_SESSION['success'];
+                    unset($_SESSION['success']);
+                    ?>
+                </h3>
+            </div>
+        <?php endif ?>
         <div class="header">
             <h2>List User</h2>
         </div>
@@ -140,7 +140,7 @@ $pagination = pagination_admin($url, $page, $total);
                         if ($search == "") {
                             header("location: list.php");
                         } elseif ($num > 0) {
-                            echo "$num ket qua tra ve voi tu khoa '<b>$search</b>'";
+                            echo "$num kết quả trả về với từ khóa '<b>$search</b>'";
                             while ($result = mysqli_fetch_assoc($sql)) { ?>
                                 <tr scope="row">
                                     <td><?php echo $result['id']; ?></td>
