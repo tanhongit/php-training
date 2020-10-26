@@ -3,7 +3,7 @@ session_start();
 include '../functions.php';
 
 if (!isset($_GET['code']) || empty($_GET['code'])) {
-    header('location: index.php');
+    echo "<div style='padding-top: 200' class='container'><div style='text-align: center;' class='alert alert-success'><strong>Error!</strong> Liên kết đã quá hạn!! <a href='../index.php'>Đăng nhập</a></div></div>";
 }
 
 
