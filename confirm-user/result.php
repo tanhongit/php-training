@@ -1,7 +1,10 @@
+<?php
+
+?>
 <html>
 
 <head>
-    <title>Forgot Password</title>
+    <title>Confirm Account</title>
     <link rel="stylesheet" href="../public/css/styles.css">
 </head>
 <body>
