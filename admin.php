@@ -11,14 +11,14 @@ if (!isAdmin()) {
 <head>
 	<title>Create user</title>
 	<link rel="stylesheet" type="text/css" href="public/css/styles.css">
-	<!-- <style>
+	<style>
 		.header {
 			background: #003366;
 		}
 		button[name=register_btn] {
 			background: #003366;
 		}
-	</style> -->
+	</style>
 </head>
 <body>
 	<div class="header">
@@ -62,7 +62,7 @@ if (!isAdmin()) {
 		</div>
 
 		<p>
-		<a class="btn" href="home.php">HOME</a></p>
+		<a href="home.php">HOME</a></p>
 	</form>
 </body>
 </html>

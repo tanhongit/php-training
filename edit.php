@@ -1,12 +1,9 @@
 <?php
 session_start();
 
-if (isset($_GET['edit'])) {
-    $link_edit = $_GET['edit'];
-    $encode_link = $_SESSION['links_edit'][$link_edit];
-} else header('location: home.php');
 
-$user_id = intval($encode_link);
+
+$user_id = intval($_GET['edit']);
 
 if ($_SESSION['user']['id'] != $user_id && $_SESSION['user']['user_type'] != 'admin') {
     $_SESSION['msg'] = "You must log in first";
@@ -26,16 +23,12 @@ if (isset($_GET['edit'])) {
         $data = mysqli_fetch_assoc($result);
     }
 }
-$_SESSION['user_change'] = getLink($data['id']);
-$_SESSION['user_change_id'][$_SESSION['user_change']] = $data['id'];
-$_SESSION['admin_change'] = getLink($data['id']);
-$_SESSION['admin_change_id'][$_SESSION['admin_change']] = $data['id'];
 ?>
 
 <html>
 
 <head>
-    <title>Edit User</title>
+    <title>Register</title>
     <link rel="stylesheet" href="public/css/styles.css">
 </head>
 
@@ -45,7 +38,7 @@ $_SESSION['admin_change_id'][$_SESSION['admin_change']] = $data['id'];
     </div>
     </form>
 
-    <form method="post" action="update.php?update=<?= $link_edit ?>">
+    <form method="post" action="">
         <?php echo display_error(); ?>
 
         <div class="input-group">
@@ -63,14 +56,10 @@ $_SESSION['admin_change_id'][$_SESSION['admin_change']] = $data['id'];
         <div class="input-group">
             <button type="submit" class="btn" name="save_btn">Save</button>
         </div>
+
     </form>
     <div class="back" style="text-align: center; padding-top: 10px;">
-        <button type="button" class="btn btn-info" onClick="javascript:history.go(-1)">Back</button>
-        <?php if (isAdmin()) : ?>
-            <a type="button" class="btn btn-info" href="change-password/admin-change.php?code=<?= $_SESSION['admin_change'] ?>">Change Password</a>
-        <?php else : ?>
-            <a type="button" class="btn btn-info" href="change-password/user-change.php?code=<?= $_SESSION['user_change'] ?>">Change Password</a>
-        <?php endif; ?>
+        <button type="button" class="btn btn-info" onClick="javascript:history.go(-2)">Back</button>
     </div>
 
 </body>

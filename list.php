@@ -2,15 +2,9 @@
 session_start();
 
 include('functions.php');
-
-if (!isLoggedIn()) {
+if (!isAdmin()) {
     $_SESSION['msg'] = "You must log in first";
     header('location: login.php');
-}
-
-if (!isAdmin()) {
-    $_SESSION['msg'] = "You have no authority to perform this action";
-    header('location: index.php');
 }
 
 $results = [];
@@ -43,7 +37,7 @@ $options_search = array(
     'offset' => $offset,
     'order_by' => 'id ASC'
 );
-$query = "SELECT * FROM users WHERE username LIKE '%$search%' OR fullname LIKE '%$search%' OR email LIKE  '%$search%'";
+$query = "SELECT * FROM users WHERE username LIKE '%$search%' OR fullname LIKE '%$search%' ";
 global $conn;
 $sql = mysqli_query($conn, $query);
 $num = mysqli_num_rows($sql);
@@ -68,13 +62,12 @@ if ($search != "") {
 }
 $total = ceil($total_rows / $limit);
 $pagination = pagination_admin($url, $page, $total);
-
 ?>
 
 <html>
 
 <head>
-    <title>List User</title>
+    <title>Register</title>
 
     <link rel="stylesheet" href="public/css/bootstrap.min.css">
     <link rel="stylesheet" href="public/css/font-awesome.min.css">
@@ -83,17 +76,6 @@ $pagination = pagination_admin($url, $page, $total);
 
 <body>
     <div class="container">
-        <!-- notification message -->
-        <?php if (isset($_SESSION['success'])) : ?>
-            <div class="error success">
-                <h3>
-                    <?php
-                    echo $_SESSION['success'];
-                    unset($_SESSION['success']);
-                    ?>
-                </h3>
-            </div>
-        <?php endif ?>
         <div class="header">
             <h2>List User</h2>
         </div>
@@ -140,7 +122,7 @@ $pagination = pagination_admin($url, $page, $total);
                         if ($search == "") {
                             header("location: list.php");
                         } elseif ($num > 0) {
-                            echo "$num kết quả trả về với từ khóa '<b>$search</b>'";
+                            echo "$num ket qua tra ve voi tu khoa '<b>$search</b>'";
                             while ($result = mysqli_fetch_assoc($sql)) { ?>
                                 <tr scope="row">
                                     <td><?php echo $result['id']; ?></td>
@@ -148,9 +130,9 @@ $pagination = pagination_admin($url, $page, $total);
                                     <td><?php echo $result['fullname']; ?></td>
                                     <td><?php echo $result['email']; ?></td>
                                     <td>
-                                        <a href="userinfo.php?user_id=<?= getLink($result['id']) ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                        <a href="edit.php?edit=<?= getLink($result['id']) ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                        <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= getLink($result['id']) ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                        <a href="userinfo.php?user_id=<?= $result['id'] ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        <a href="edit.php?edit=<?= $result['id'] ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                        <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= $result['id'] ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
                         <?php  }
@@ -167,9 +149,9 @@ $pagination = pagination_admin($url, $page, $total);
                                 <td><?php echo $result['fullname']; ?></td>
                                 <td><?php echo $result['email']; ?></td>
                                 <td>
-                                    <a href="userinfo.php?user_id=<?= getLink($result['id']) ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                    <a href="edit.php?edit=<?= getLink($result['id']) ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= getLink($result['id']) ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                    <a href="userinfo.php?user_id=<?= $result['id'] ?>"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                    <a href="edit.php?edit=<?= $result['id'] ?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                    <a onclick="return confirm('Are you sure to delete?')" href="delete.php?user_id=<?= $result['id'] ?>"><i class="fa fa-times" aria-hidden="true"></i></a>
 
                                 </td>
                             </tr>
