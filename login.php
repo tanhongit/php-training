@@ -25,7 +25,7 @@ if (isLoggedIn()) header('location: home.php');
 			<label>Username</label>
 			<input autofocus required type="text" value="<?php if (isset($_COOKIE["user"])) {
 																echo $_COOKIE["user"];
-															} ?>" name="username">
+															} ?>" name="username" placeholder="Username or Email...">
 		</div>
 		<div class="input-group">
 			<label>Password</label>

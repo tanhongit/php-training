@@ -221,18 +221,21 @@ function login()
 
 	// make sure form is filled properly
 	if (empty($username)) {
-		array_push($errors, "Username is required");
+		array_push($errors, "Username or Email is required");
 	}
 	if (empty($password)) {
 		array_push($errors, "Password is required");
 	}
+	if (!preg_match("/(?=.[0-9])(?=.[A-Z])(?=.*[a-z]).{8,}/", $password)) {
+        array_push($errors, "Pass phải từ 8 ký tự trở lên và phải có chứ số, chữ in hoa, chữ thường và có ký tự đặc biệt ");
+    }
 
 	// attempt login if no errors on form
 	if (count($errors) == 0) {
 		$password = md5($password);
 
-		$query = "SELECT * FROM users WHERE username='$username' AND password='$password' LIMIT 1";
-		$query2 = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+		$query = "SELECT * FROM users WHERE username='$username' OR email='$username' AND password='$password' LIMIT 1";
+		$query2 = "SELECT * FROM users WHERE username='$username' OR email='$username' AND password='$password'";
 		$results = mysqli_query($conn, $query);
 		$results2 = mysqli_query($conn, $query2);
 		$row = mysqli_fetch_array($results2);
@@ -267,7 +270,7 @@ function login()
 				header('location: index.php');
 			}
 		} else {
-			array_push($errors, "Wrong username/password combination");
+			array_push($errors, "Wrong username/email and password combination");
 		}
 	}
 }
