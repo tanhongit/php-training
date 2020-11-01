@@ -16,6 +16,8 @@ After a clone my repository to the local computer, you need to edit some code to
 
 You need to change the information about **SMTP Mail** to be able to use some functions about user account authentication, change passwords, notify users, ...
 
+Use the file "**setting.php example**" to create a new file called "**setting.php**" at the same level and edit the information in it.
+
 ```php
 <?php
 define('SMTP_HOST','smtp.gmail.com');
