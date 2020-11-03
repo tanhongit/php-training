@@ -4,6 +4,7 @@ session_start();
 if (isset($_GET['edit'])) {
     $link_edit = $_GET['edit'];
     $encode_link = $_SESSION['links_edit'][$link_edit];
+    $_SESSION['result_link'] = $link_edit;
 } else header('location: home.php');
 
 $user_id = intval($encode_link);

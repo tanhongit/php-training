@@ -152,6 +152,8 @@ function edit($user_id)
 		setcookie("user", '', time() - 3600);
 		setcookie("pass", '', time() - 3600);
 	}
+
+	unset($_SESSION['version_update']);
 	header('location: list.php');
 }
 
