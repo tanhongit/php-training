@@ -33,6 +33,8 @@ $align-left: left;
 $radius-pixel: 5px;
 $scale: 100%;
 $margin-padding-auto: auto;
+$properties: none;
+$display-block: block;
 //end orther
 
 html,
@@ -46,7 +48,7 @@ body {
   margin-bottom: 10px;
 }
 a {
-  text-decoration: none;
+  text-decoration: $properties;
 }
 .container {
   height: $scale;
@@ -139,7 +141,7 @@ a {
 .parentElement {
   text-align: $center;
   a {
-    text-decoration: none;
+    text-decoration: $properties;
   }
 }
 
@@ -167,7 +169,7 @@ a {
   background: $color-green;
   text-align: $center;
   border: $border-form $color-grey;
-  border-bottom: none;
+  border-bottom: $properties;
   border-radius: 10px 10px 0px 0px;
   padding: 20px;
 }
@@ -182,7 +184,7 @@ form,
 .input-group {
   margin: 10px 0px 10px 0px;
   label {
-    display: block;
+    display: $display-block;
     text-align: $align-left;
     margin: 3px;
   }
@@ -209,7 +211,7 @@ form,
   font-size: 15px;
   color: $main-color-white;
   background: $color-green;
-  border: none;
+  border: $properties;
   border-radius: $radius-pixel;
 }
 .error {
@@ -218,7 +220,7 @@ form,
   padding: 10px;
   border: $border-form $error-color;
   color: $error-color;
-  background: #f2dede;
+  background: $error-background-color;
   border-radius: $radius-pixel;
   text-align: $align-left;
 }
@@ -242,7 +244,7 @@ form,
   }
   &:after {
     content: "";
-    display: block;
+    display: $display-block;
     clear: both;
   }
 }
