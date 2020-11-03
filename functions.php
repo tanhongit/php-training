@@ -143,8 +143,8 @@ function edit($user_id)
 	$username    =  escape($_POST['username1']);
 	$fullname    =  escape($_POST['fullname1']);
 	$email       =  escape($_POST['email1']);
-
-	mysqli_query($conn, "UPDATE `users` SET `username` = '$username', `fullname` = '$fullname', `email`='$email' WHERE `id` = '$user_id'");
+	$version	 =  intval($_SESSION['version_update'] + 1);
+	mysqli_query($conn, "UPDATE `users` SET `username` = '$username', `fullname` = '$fullname', `email`='$email', `version`='$version' WHERE `id` = '$user_id'");
 
 	$_SESSION['success']  = "Change successfully";
 	// // header("Refresh:2; url=page2.php");

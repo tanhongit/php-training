@@ -30,6 +30,8 @@ $_SESSION['user_change'] = getLink($data['id']);
 $_SESSION['user_change_id'][$_SESSION['user_change']] = $data['id'];
 $_SESSION['admin_change'] = getLink($data['id']);
 $_SESSION['admin_change_id'][$_SESSION['admin_change']] = $data['id'];
+
+$_SESSION['version_update'] = $data['version'];
 ?>
 
 <html>
