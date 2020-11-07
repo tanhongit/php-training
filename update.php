@@ -15,7 +15,7 @@ if (isset($_POST['save_btn'])) {
 	if (isset($_SESSION['version_update'])) {
 		if ($user_local['version'] == $_SESSION['version_update']) {
 			edit($encode_link);
-			$_SESSION['success'] = "This User has successfully changed";
+			// $_SESSION['success'] = "This User has successfully changed";
 		} else $_SESSION['mess_version'] = "Phiên chỉnh sửa đã hết hạn. Vui lòng thao tác lại!";
 	} else {
 		$_SESSION['mess_version'] = "Phiên chỉnh sửa đã hết hạn. Vui lòng thao tác lại!";
