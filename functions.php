@@ -19,7 +19,7 @@ if (isset($_POST['register_btn'])) {
 		array_push($errors, "Username đã tồn tại. Vui lòng nhập Username khác");
 	} elseif (mysqli_num_rows(mysqli_query($conn, "SELECT email FROM users WHERE email='$email'"))) {
 		array_push($errors, "Email đã tồn tại. Vui lòng nhập Email khác");
-	} elseif (!preg_match("/([a-zA-Z0-9]([\w.!@#$%^&*()]+){8,})/", $password_1)) {
+	} elseif (!preg_match("/(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{8,}/", $password_1)) {
 		array_push($errors, "Pass phải từ 8 ký tự trở lên và phải có chứ số, chữ in hoa, chữ thường và có ký tự đặc biệt!!");
 	} else register();
 }
