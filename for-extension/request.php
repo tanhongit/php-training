@@ -3,7 +3,7 @@ session_start();
 include('../functions.php');
 if (isset($_GET['mssv'])) {
     $users_option = array(
-        'order_by' => 'id DESC'
+        'order_by' => 'id asc'
     );
     $users = get_by_options('users', $users_option);
     foreach ($users as $user) {
