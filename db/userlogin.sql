@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th10 26, 2020 lúc 03:55 PM
+-- Thời gian đã tạo: Th10 22, 2020 lúc 05:00 PM
 -- Phiên bản máy phục vụ: 10.4.10-MariaDB
 -- Phiên bản PHP: 7.3.12
 
@@ -21,6 +21,29 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `userlogin`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `presence`
+--
+
+DROP TABLE IF EXISTS `presence`;
+CREATE TABLE IF NOT EXISTS `presence` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `presence_mssv` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `presence_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `presence`
+--
+
+INSERT INTO `presence` (`id`, `presence_mssv`, `presence_time`) VALUES
+(1, 'hh', '2020-11-22 23:57:38'),
+(2, 'hh', '2020-11-22 23:58:17'),
+(3, '18211TT2680', '2020-11-22 23:58:29');
 
 -- --------------------------------------------------------
 
