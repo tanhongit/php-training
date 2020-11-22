@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th10 22, 2020 lúc 05:00 PM
+-- Thời gian đã tạo: Th10 22, 2020 lúc 07:41 PM
 -- Phiên bản máy phục vụ: 10.4.10-MariaDB
 -- Phiên bản PHP: 7.3.12
 
@@ -25,29 +25,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `presence`
---
-
-DROP TABLE IF EXISTS `presence`;
-CREATE TABLE IF NOT EXISTS `presence` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `presence_mssv` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `presence_time` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `presence`
---
-
-INSERT INTO `presence` (`id`, `presence_mssv`, `presence_time`) VALUES
-(1, 'hh', '2020-11-22 23:57:38'),
-(2, 'hh', '2020-11-22 23:58:17'),
-(3, '18211TT2680', '2020-11-22 23:58:29');
-
--- --------------------------------------------------------
-
---
 -- Cấu trúc bảng cho bảng `users`
 --
 
@@ -62,15 +39,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `verificationCode` varchar(500) DEFAULT NULL,
   `status` int(11) DEFAULT 0,
   `version` int(11) NOT NULL DEFAULT 1,
+  `presence` int(11) NOT NULL DEFAULT 0,
+  `presence_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `fullname`, `email`, `user_type`, `password`, `verificationCode`, `status`, `version`) VALUES
-(1, 'admin', 'Admin', 'admin@gmail.com', 'admin', '25f9e794323b453885f5181f1b624d0b', NULL, 1, 1);
+INSERT INTO `users` (`id`, `username`, `fullname`, `email`, `user_type`, `password`, `verificationCode`, `status`, `version`, `presence`, `presence_time`) VALUES
+(1, 'admin', 'Admin', 'admin@gmail.com', 'admin', '25f9e794323b453885f5181f1b624d0b', NULL, 1, 1, 0, '0000-00-00 00:00:00'),
+(33, 'tanhong', 'Nguyen Tan', 'phuongtan12357nguyen@gmail.com', 'user', '56f15aa99c5c267e7c0bbf5133d40225', 'd6d85aad7f839dc5df2165d0fa9a3cc7', 0, 1, 1, '2020-11-23 02:25:37');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
