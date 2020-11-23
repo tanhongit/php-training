@@ -5,12 +5,12 @@ include('../functions.php');
 
 if (!isLoggedIn()) {
     $_SESSION['msg'] = "You must log in first";
-    header('location: login.php');
+    header('location: ../login.php');
 }
 
 if (!isAdmin()) {
     $_SESSION['msg'] = "You have no authority to perform this action";
-    header('location: index.php');
+    header('location: ../index.php');
 }
 
 $users_option = array(
