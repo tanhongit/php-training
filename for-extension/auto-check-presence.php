@@ -52,4 +52,4 @@ $i = 0;
             endforeach; ?>
     </tbody>
 </table>
-<input type="text" id="test_input" value="<?= $i ?>">
+<input type="text" id="total_user_mssv" value="<?= $i ?>">
