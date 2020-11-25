@@ -37,13 +37,13 @@ $i = 0;
                 <td><?php echo $result['username']; ?></td>
                 <td><?php echo $result['fullname']; ?></td>
                 <?php if ($result['presence'] > 0) : ?>
-                    <td><input checked class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" disabled>
+                    <td><input checked class="form-check-input" type="checkbox" id="inlineCheckbox<?=$i?>" value="option3" disabled>
                         <label class="form-check-label" for="defaultCheck1">
                             Presenced
                         </label>
                     </td>
                 <?php else : ?>
-                    <td><input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" disabled>
+                    <td><input class="form-check-input" type="checkbox" id="inlineCheckbox<?=$i?>" value="option3" disabled>
                         <label class="form-check-label" for="defaultCheck1">
                             Not present
                         </label></td>

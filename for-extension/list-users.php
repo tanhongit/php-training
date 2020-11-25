@@ -65,17 +65,12 @@ $users = get_by_options('users', $users_option);
                             <td><?php echo $result['id']; ?></td>
                             <td><?php echo $result['username']; ?></td>
                             <td><?php echo $result['fullname']; ?></td>
-                            <?php if ($result['presence'] > 0) : ?>
-                                <td>
-                                    <input type="text" id="inputnumber" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="">
-                                </td>
-                            <?php else : ?>
-                                <td>
-                                    <input type="text" id="inputnumber" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="5">
-                                </td>
+                            <td>
+                                <input type="text" id="inputnumber" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="">
+                            </td>
                         </tr>
-                <?php endif;
-                        endforeach; ?>
+                    <?php
+                    endforeach; ?>
                 </tbody>
             </table>
         </form>
