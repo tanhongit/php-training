@@ -17,6 +17,8 @@ $users_option = array(
     'order_by' => 'id asc'
 );
 $users = get_by_options('users', $users_option);
+
+$i = 0;
 ?>
 
 <html>
@@ -49,9 +51,10 @@ $users = get_by_options('users', $users_option);
         <form>
             <?php echo display_error(); ?>
 
-            <table class="table">
+            <table class="table" id="grvListStudents">
                 <thead>
                     <tr>
+                        <th scope="col">STT</th>
                         <th scope="col">ID</th>
                         <th scope="col">Username</th>
                         <th scope="col">Full name</th>
@@ -60,16 +63,20 @@ $users = get_by_options('users', $users_option);
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($users as $result) : ?>
+                    foreach ($users as $result) :  ?>
                         <tr scope="row">
-                            <td><?php echo $result['id']; ?></td>
+                            <td><span id="grvListStudents_lblSTT_<?= $i ?>"><?= $i ?></span></td>
+                            <td><span id="grvListStudents_lblStudentID_<?= $i ?>"><?php echo $result['id']; ?></span></td>
                             <td><?php echo $result['username']; ?></td>
                             <td><?php echo $result['fullname']; ?></td>
                             <td>
-                                <input type="text" id="inputnumber" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="">
+                                <input type="text" id="inputnumber<?= $i ?>" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value="">
+                                <input hidden name="grvListStudents$ctl03$txtVangCP" type="text" maxlength="1" id="grvListStudents_txtVangCP_<?= $i ?>" style="width:40px;" />
+                                <input hidden name="grvListStudents$ctl03$txtVangCP" type="text" maxlength="1" id="grvListStudents_txtVangKP_<?= $i ?>" style="width:40px;" />
                             </td>
                         </tr>
                     <?php
+                        $i++;
                     endforeach; ?>
                 </tbody>
             </table>
