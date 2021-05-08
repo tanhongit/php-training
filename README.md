@@ -1,5 +1,7 @@
 Welcome to PHP TRAINING
 
+PHP training with the main goal is finding security bugs and fix the way in PHP.
+
 # Configuration requirements
 
     - Version PHP 7.3 and above
